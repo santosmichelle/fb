@@ -33,6 +33,8 @@ public class Usuario  {
 	private String visibilidade;
 	
 	
+	//Gerando getters and setters
+	
 	
 	public int getId_usuario() {
 		return id_usuario;
