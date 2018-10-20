@@ -14,11 +14,9 @@ public class Post {
 	
 	
 	@Id
-	private int id_post;
-	
+	private int id_post;	
 	@Id
-	private int id_user_post;
-	
+	private int id_user_post;	
 	@Column	
 	private byte[] imagem;
 	@Column
@@ -59,7 +57,16 @@ public class Post {
 		this.visibilidade = visibilidade;
 	}
 	
+	//métodos
+	
+	public void criaPost(int id_post, int id_user_post, byte[] imagem, String conteudo, String visibilidade ) {
 
+	}
+	
+	public void removePost(int id_post) {
 
-
+	}
+	
+	
+	
 }

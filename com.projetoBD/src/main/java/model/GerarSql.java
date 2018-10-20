@@ -27,8 +27,6 @@ public class GerarSql {
 		
 		
 	}
-
-
 	
 	
 	public static void main(String[] args) {
