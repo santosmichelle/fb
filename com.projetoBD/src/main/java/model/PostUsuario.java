@@ -1,18 +1,18 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_post_usuario")
-
-public class PostUsuario extends Post {
+public class PostUsuario{
 	
 	@Id
 	private int id_post;
 	
-	@Id
+	@Column	
 	private int id_user_post;
 	
 	//Gerando getters and setters

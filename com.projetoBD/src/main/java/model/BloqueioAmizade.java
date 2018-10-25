@@ -1,15 +1,15 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_bloqueio_amizade")
-
 public class BloqueioAmizade {
 	
-	@Id
+	@Column
 	private int id_amigo;
 	
 	@Id

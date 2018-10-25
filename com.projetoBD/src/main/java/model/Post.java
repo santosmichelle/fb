@@ -9,13 +9,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_post")
-
 public class Post {
 	
 	
 	@Id
 	private int id_post;	
-	@Id
+	@Column	
 	private int id_user_post;	
 	@Column	
 	private byte[] imagem;

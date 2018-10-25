@@ -1,20 +1,19 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_post_grupo")
-
-
-public class PostGrupo extends Post{
+public class PostGrupo{
 
 	
 	@Id
 	private int id_post;
 	
-	@Id
+	@Column	
 	private int id_grupo_post;
 	
 	
