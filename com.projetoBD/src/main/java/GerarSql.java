@@ -131,7 +131,7 @@ public class GerarSql {
 		//c.aceitarMembrosGrupos(m, manager);
 		//c.solicitarMembrosGrupos(s, manager);
 		//c.bloquearMembrosGrupos(b, manager);
-		System.out.println(u.pesquisarUsuario("patricia", 1, manager).getNome());
+		System.out.println(u.pesquisarUsuario("michelle", 1, manager).getNome());
 		
 		//b.login(manager, "login");
 		//b.criarPost(manager);
@@ -140,7 +140,7 @@ public class GerarSql {
 //		b.testarInsSolicAmizade(manager);
 //		b.testarInsBloqAmizade(manager);
 		
-		manager.close();
+		//manager.close();
 		
 		
 		

@@ -19,7 +19,7 @@ public class UsuarioController {
 			transaction.begin();
 			manager.persist(user);
 			transaction.commit();
-			
+			manager.close();
 			return true;
 		}
 		return false;		
@@ -38,13 +38,13 @@ public class UsuarioController {
 		return false;		
 	}
 	
-	public boolean inserirSolicAmizade(SolicAmizade obj, EntityManager manager) {
+	public boolean SolicitarAmizade(SolicAmizade obj, EntityManager manager) {
 		if (obj != null ) {
 			EntityTransaction transaction	= manager.getTransaction();
 			transaction.begin();
 			manager.persist(obj);
 			transaction.commit();
-			
+			manager.close();
 			return true;
 		}
 		return false;		
@@ -64,13 +64,16 @@ public class UsuarioController {
 	
 	
 	public Usuario pesquisarUsuario(String nome, int idUserLogado, EntityManager manager) {
-		
+		System.out.println(nome);
+		System.out.println(idUserLogado);
+		System.out.println(manager.isOpen());
+		Usuario user;
 		EntityTransaction transaction	= manager.getTransaction();
 		transaction.begin();
 		
 		try {
 			
-			return manager.createQuery("select u from Usuario u " + 
+			user =  manager.createQuery("select u from Usuario u " + 
 					" where upper(u.nome) like :nome " + 
 					" and not exists " + 
 					" (select b from SolicAmizade b " + 
@@ -79,6 +82,30 @@ public class UsuarioController {
 					.setParameter("nome", "%"+nome.toUpperCase()+"%")
 					.setParameter("idUserLogado", idUserLogado)
 					.getSingleResult();
+			manager.close();
+			return user;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+			
+	}
+	
+public Usuario login(Usuario u, EntityManager manager) {
+		
+		EntityTransaction transaction	= manager.getTransaction();
+		transaction.begin();
+		Usuario user;
+		try {
+			
+			user = manager.createQuery("from Usuario where login = :login and senha = :senha ) ",Usuario.class)
+					.setParameter("login", u.getLogin())
+					.setParameter("senha", u.getSenha())
+					.getSingleResult();
+			
+			manager.close();
+			return user;
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

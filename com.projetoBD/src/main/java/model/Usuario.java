@@ -22,7 +22,7 @@ public class Usuario  {
 	@Column
 	private String nome;
 	@Column
-	private String data_nascimento;
+	private Date data_nascimento;
 	@Column
 	private String foto;
 	@Column
@@ -44,18 +44,17 @@ public class Usuario  {
 		this.id_usuario = id_usuario;
 	}
 
-	
+	public String getFoto() {
+		return foto;
+	}
 
-	public String getData_nascimento() {
+	
+	public Date getData_nascimento() {
 		return data_nascimento;
 	}
 
-	public void setData_nascimento(String data_nascimento) {
+	public void setData_nascimento(Date data_nascimento) {
 		this.data_nascimento = data_nascimento;
-	}
-
-	public String getFoto() {
-		return foto;
 	}
 
 	public void setFoto(String foto) {
