@@ -22,9 +22,9 @@ public class Usuario  {
 	@Column
 	private String nome;
 	@Column
-	private Date data_nascimento;
+	private String data_nascimento;
 	@Column
-	private byte[] foto;
+	private String foto;
 	@Column
 	private String senha;
 	@Column
@@ -44,19 +44,21 @@ public class Usuario  {
 		this.id_usuario = id_usuario;
 	}
 
-	public Date getData_nascimento() {
+	
+
+	public String getData_nascimento() {
 		return data_nascimento;
 	}
 
-	public void setData_nascimento(Date data_nascimento) {
+	public void setData_nascimento(String data_nascimento) {
 		this.data_nascimento = data_nascimento;
 	}
 
-	public byte[] getFoto() {
+	public String getFoto() {
 		return foto;
 	}
 
-	public void setFoto(byte[] foto) {
+	public void setFoto(String foto) {
 		this.foto = foto;
 	}
 
@@ -91,8 +93,14 @@ public class Usuario  {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id_usuario=" + id_usuario + ", nome=" + nome + ", data_nascimento=" + data_nascimento
+				+ ", foto=" + foto + ", senha=" + senha + ", login=" + login + ", visibilidade=" + visibilidade + "]";
+	}
 		
-	//mof 8342
+	
 	
 
 

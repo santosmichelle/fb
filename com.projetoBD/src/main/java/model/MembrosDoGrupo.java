@@ -8,18 +8,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_membros_grupo")
-
 public class MembrosDoGrupo {
 	
 	
 	@Id
 	private int id_memb_grup;
-	@Id
+	@Column
 	private int id_grupo;
-	@Id
+	@Column
 	private int id_usuario;
 	@Column
-	private String admnistrador;
+	private String administrador;
 	
 	public int getId_memb_grup() {
 		return id_memb_grup;
@@ -40,10 +39,10 @@ public class MembrosDoGrupo {
 		this.id_usuario = id_usuario;
 	}
 	public String getAdmnistrador() {
-		return admnistrador;
+		return administrador;
 	}
 	public void setAdmnistrador(String admnistrador) {
-		this.admnistrador = admnistrador;
+		this.administrador = admnistrador;
 	}
 
 }

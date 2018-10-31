@@ -1,21 +1,21 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_bloqueio_memb_grupo")
-
+@Table(name = "tb_bloq_memb_grupo")
 public class BloqueioMembGrupo {
 	
 	@Id
 	private int id_bloq_memb;
 	
-	@Id
+	@Column
 	private int id_grupo;
 	
-	@Id
+	@Column
 	private int id_usuario;
 
 	

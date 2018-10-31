@@ -1,22 +1,22 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_solic_memb_grupo")
-
 public class SolicMembGrupo {
 	
 	@Id
 	private int id_solic_memb;
 	
-	@Id
+	@Column
 	private int id_grupo;
 	
-	@Id
-	private int usuario;
+	@Column
+	private int id_usuario;
 	
 	//Gerando getters and setters
 
@@ -37,11 +37,11 @@ public class SolicMembGrupo {
 	}
 
 	public int getUsuario() {
-		return usuario;
+		return id_usuario;
 	}
 
 	public void setUsuario(int usuario) {
-		this.usuario = usuario;
+		this.id_usuario = usuario;
 	}
 
 }

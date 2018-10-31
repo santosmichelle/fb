@@ -1,18 +1,30 @@
 package model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
 
 
-@Entity
-@Table(name = "tb_post")
-public class Post {
+//@Entity
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@Table(name = "tb_post")
+@MappedSuperclass
+public abstract class Post implements Serializable{
+		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	
-	@Id
+	@Id 
 	private int id_post;	
 	@Column	
 	private int id_user_post;	
@@ -56,15 +68,9 @@ public class Post {
 		this.visibilidade = visibilidade;
 	}
 	
-	//métodos
-	
-	public void criaPost(int id_post, int id_user_post, byte[] imagem, String conteudo, String visibilidade ) {
 
-	}
 	
-	public void removePost(int id_post) {
 
-	}
 	
 	
 	
