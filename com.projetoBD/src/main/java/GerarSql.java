@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 import controller.GrupoController;
+import controller.PostController;
 import controller.UsuarioController;
 import model.Amizade;
 import model.BloqueioAmizade;
@@ -78,8 +79,7 @@ public class GerarSql {
 	public boolean criarPost(EntityManager manager) {
 		
 		PostUsuario post = new PostUsuario();
-		post.setId_user_post(2);
-		post.setId_user_logado(1);
+		
 		
 		if (post != null) {
 			EntityTransaction transaction	= manager.getTransaction();
@@ -106,7 +106,7 @@ public class GerarSql {
 	
 	
 	public static void main(String[] args) {
-		EntityManager manager = GerarSql.createEntityManager();
+		EntityManager manager; 
 		GerarSql gs = new GerarSql();
 		UsuarioController u = new UsuarioController();
 		GrupoController c = new GrupoController();
@@ -116,6 +116,7 @@ public class GerarSql {
 		BloqueioMembGrupo b = new BloqueioMembGrupo();
 		g.setNome("Grupo teste");
 		g.setVisibilidade("P");
+		PostController p = new PostController();
 		
 		m.setId_grupo(1);
 		m.setId_usuario(3);
@@ -131,9 +132,13 @@ public class GerarSql {
 		//c.aceitarMembrosGrupos(m, manager);
 		//c.solicitarMembrosGrupos(s, manager);
 		//c.bloquearMembrosGrupos(b, manager);
-		System.out.println(u.pesquisarUsuario("michelle", 1, manager).getNome());
-		
-		//b.login(manager, "login");
+//		MembrosDoGrupo m1;
+//		manager = GerarSql.createEntityManager();
+//		m1 = c.pesquisarMembroGrupo(1, 3, manager);
+		manager = GerarSql.createEntityManager();
+
+		System.out.println(p.verMuralUsuario(2, manager));;
+			//b.login(manager, "login");
 		//b.criarPost(manager);
 //		b.testarInsert(manager);
 //		b.testarInsertAmizade(manager);

@@ -13,11 +13,9 @@ import javax.persistence.Table;
 
 
 
-//@Entity
-//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-//@Table(name = "tb_post")
-@MappedSuperclass
-public abstract class Post implements Serializable{
+@Entity
+@Table(name = "tb_post")
+public  class Post implements Serializable{
 		
 	/**
 	 * 

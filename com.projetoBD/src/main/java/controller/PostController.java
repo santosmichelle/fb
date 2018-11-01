@@ -1,11 +1,10 @@
 package controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import model.Amizade;
-import model.BloqueioAmizade;
-import model.SolicAmizade;
 import model.Post;
 import model.PostUsuario;
 
@@ -24,6 +23,18 @@ public class PostController {
 		return false;		
 	}
 	
+	public int buscaUltimoPost(EntityManager manager) {
+		int i;
+		if (manager.isOpen()) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+			i = (int) manager.createNativeQuery("SELECT max(p.id_post) FROM tb_post p").getSingleResult();
+			
+			
+			return i;
+		}
+		return 0;		
+	}
 	
 	public boolean excluirPost(Post post, EntityManager manager) {
 		if (post != null) {
@@ -64,8 +75,38 @@ public class PostController {
 		    }
 		    return post;
 		  }
-		
+
+	public boolean criarPostUsuario(PostUsuario p , EntityManager manager) {
+		if (manager.isOpen()) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+			manager.persist(p);
+			transaction.commit();
+			
+			return true;
+		}
+		return false;		
+	}
 	
+	
+	public List<Post> verMuralUsuario(int idUsuario , EntityManager manager) {
+		 List<Post> p;
+		
+		if (idUsuario>0) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+			
+			 p = manager.createQuery(" select p from Post p, " + 
+			 		" PostUsuario pu " +  
+			 		" where pu.id_post = p.id_post " + 
+			 		" and pu.id_user_logado = :idUsuario",Post.class)
+					.setParameter("idUsuario", idUsuario)
+					.getResultList();
+			
+			return p;
+		}
+		return null;		
+	}
 	
 
 	}

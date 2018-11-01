@@ -124,4 +124,22 @@ public Usuario login(Usuario u, EntityManager manager) {
 		}
 		return false;		
 	}
+	
+	public Integer verificaAmizade(int idUserLogado,int idAmigo, EntityManager manager) {
+		Integer i;
+		if (idUserLogado>0) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+			i =  manager.createQuery(" SELECT a FROM Amizade a " + 
+					" where a.id_user_logado = :idUserLogado " + 
+					" and a.id_amigo = :idAmigo ",Amizade.class)
+					.setParameter("idUserLogado", idUserLogado)
+					.setParameter("idAmigo", idAmigo)
+					.getSingleResult().getId_amigo();
+		
+			
+			return i;
+		}
+		return 0;		
+	}
 }
