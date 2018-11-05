@@ -1,5 +1,8 @@
 
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -12,10 +15,12 @@ import controller.UsuarioController;
 import model.Amizade;
 import model.BloqueioAmizade;
 import model.BloqueioMembGrupo;
+import model.ComentarioPost;
 import model.Grupo;
 import model.MembrosDoGrupo;
 import model.Post;
 import model.PostUsuario;
+import model.RetornoPost;
 import model.SolicAmizade;
 import model.SolicMembGrupo;
 import model.Usuario;
@@ -136,8 +141,48 @@ public class GerarSql {
 //		manager = GerarSql.createEntityManager();
 //		m1 = c.pesquisarMembroGrupo(1, 3, manager);
 		manager = GerarSql.createEntityManager();
+//RetornoPost r = RetornoPost.class.cast(p.verMuralUsuario(4, 1, manager).get(0).getClass().getName());
+//			System.out.println(u.getSolicitAmizades(4, manager).listIterator());
+		
 
-		System.out.println(p.verMuralUsuario(2, manager));;
+			System.out.println(u.removeSolicitAmizadeAmizade(4, 5, manager));
+
+		/*
+		
+		
+		
+		
+		manager = GerarSql.createEntityManager();
+		List<RetornoPost>	listRetornoPost =p.verMuralUsuario(4, 2, manager);
+		manager = GerarSql.createEntityManager();
+		List<RetornoPost> listComentPost =p.buscaComentPostUser(manager);
+		manager = GerarSql.createEntityManager();
+		List<RetornoPost> listRespComent = p.buscaRespComentUser(manager);
+		
+			String msg = "";
+			for (RetornoPost pt : listRetornoPost) {
+			msg = msg+pt.getNome()+": "+pt.getConteudo() + " \n  ";
+				for (RetornoPost cp : listComentPost) {
+					if (cp.getId_post()==pt.getId_post()) {
+						msg = msg+"\t __ "+cp.getNome()+": "+cp.getConteudo() + " \n ";
+						
+					}
+					for (RetornoPost rc : listRespComent) {
+						if (rc.getId_post()==cp.getId_comentario()) {
+							msg = msg+"\t\t ______"+rc.getNome()+": "+rc.getConteudo() + " \n ";
+							
+						}
+					}
+					
+				}
+				
+			}
+			
+			JOptionPane.showMessageDialog(null, msg);
+			*/
+			
+			
+			
 			//b.login(manager, "login");
 		//b.criarPost(manager);
 //		b.testarInsert(manager);

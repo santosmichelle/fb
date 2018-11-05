@@ -9,16 +9,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_comentario_post")
-
 public class ComentarioPost {
 	
 	@Id
 	private int id_comentario;
 	
-	@Id
+	@Column
 	private int id_post;
 	
-	@Id
+	@Column
 	private int id_user_coment;
 	
 	@Column	

@@ -1,17 +1,20 @@
 package model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
-
+import javax.persistence.Table;
+@Entity
+@Table(name = "tb_resposta_coment")
 public class RespostaComent {
 	
 	@Id
 	private int id_resposta;
 	
-	@Id
+	@Column	
 	private int id_comentario;
 	
-	@Id
+	@Column	
 	private int id_user_resp;
 	
 	@Column	

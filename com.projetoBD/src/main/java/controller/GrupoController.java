@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -33,16 +35,9 @@ public class GrupoController {
 		
 		try {
 			
-			grupo =  manager.createQuery(" select u from Grupo u "
-					+ " ,MembrosDoGrupo mg " + 
-					" where mg.id_grupo = u.id_grupo "
-					+ " and upper(u.nome) like :nome " + 
-					" and not exists " + 
-					" ( select b from BloqueioMembGrupo b " + 
-					" where b.id_usuario = mg.id_usuario " + 
-					" and b.id_usuario = :idUserLogado ) ",Grupo.class)
+			grupo =  manager.createQuery("From Grupo u " + 
+					" where upper(u.nome) like :nome",Grupo.class)
 					.setParameter("nome", "%"+nome.toUpperCase()+"%")
-					.setParameter("idUserLogado", idUserLogado)
 					.getSingleResult();
 			manager.close();
 			return grupo;
@@ -147,5 +142,23 @@ public class GrupoController {
 	    }
 	  }
 
+	public List<String> getSolicitMembros(int idUserAdmin, EntityManager manager) {
+		List<String> p;
+		if (manager.isOpen()) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+
+			p = manager.createQuery(" select 'id = '||u.id_usuario ||' Nome= '||u.nome " + 
+					" from SolicAmizade a, Usuario u " + 
+					" where u.id_usuario= a.id_user_logado" + 
+					" and a.id_amigo= :idUserLogado" 
+					,String.class)
+					.setParameter("idUserLogado", idUserAdmin)
+					.getResultList();
+
+			return p;
+		}
+		return null;		
+	}
 
 }

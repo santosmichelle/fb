@@ -13,7 +13,7 @@ public class PostUsuario{
 	private int id_post;
 	
 	@Column
-	private int id_user_logado;
+	private int id_user_post;
 
 	public int getId_post() {
 		return id_post;
@@ -23,12 +23,12 @@ public class PostUsuario{
 		this.id_post = id_post;
 	}
 
-	public int getId_user_logado() {
-		return id_user_logado;
+	public int getId_user_post() {
+		return id_user_post;
 	}
 
-	public void setId_user_logado(int id_user_logado) {
-		this.id_user_logado = id_user_logado;
+	public void setId_user_post(int id_user_post) {
+		this.id_user_post = id_user_post;
 	}
 
 

@@ -1,10 +1,14 @@
 package controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import model.Amizade;
 import model.BloqueioAmizade;
+import model.MembrosDoGrupo;
+import model.RetornoPost;
 import model.SolicAmizade;
 import model.SolicMembGrupo;
 import model.Usuario;
@@ -112,6 +116,57 @@ public Usuario login(Usuario u, EntityManager manager) {
 		return null;
 			
 	}
+
+public boolean aceitarAmizade(Amizade m, EntityManager manager) {
+
+	if (m != null) {
+		EntityTransaction transaction	= manager.getTransaction();
+		transaction.begin();
+		manager.persist(m);
+		transaction.commit();
+		return true;
+	}	
+	return false;
+
+}
+
+public boolean removeSolicitAmizadeAmizade(int id_user_logado ,int id_amigo, EntityManager manager) {
+
+	int i = 0 ;
+	if (manager.isOpen()) {
+		EntityTransaction transaction	= manager.getTransaction();
+		transaction.begin();
+		
+		i = manager.createQuery("delete SolicAmizade m " + 
+				" where m.id_user_logado = :id_user_logado and m.id_amigo = :id_amigo  ")
+				.setParameter("id_amigo", id_user_logado)
+				.setParameter("id_user_logado",id_amigo)
+				.executeUpdate();
+		transaction.commit();
+		
+	}	
+	return i>0;
+
+}
+
+public List<String> getSolicitAmizades(int idUserLogado, EntityManager manager) {
+	List<String> p;
+	if (manager.isOpen()) {
+		EntityTransaction transaction	= manager.getTransaction();
+		transaction.begin();
+
+		p = manager.createQuery(" select 'id = '||u.id_usuario ||' Nome= '||u.nome " + 
+				" from SolicAmizade a, Usuario u " + 
+				" where u.id_usuario= a.id_user_logado" + 
+				" and a.id_amigo= :idUserLogado" 
+				,String.class)
+				.setParameter("idUserLogado", idUserLogado)
+				.getResultList();
+
+		return p;
+	}
+	return null;		
+}
 	
 	public boolean inserirSolicGrupo(SolicMembGrupo solic, EntityManager manager) {
 		if (solic != null ) {
