@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import model.ComentarioPost;
 import model.Post;
 import model.PostUsuario;
+import model.RespostaComent;
 import model.RetornoPost;
 
 public class PostController {
@@ -39,16 +40,7 @@ public class PostController {
 		return 0;		
 	}
 
-	public boolean excluirPost(Post post, EntityManager manager) {
-		if (post != null) {
-			EntityTransaction transaction	= manager.getTransaction();
-			transaction.begin();
-			manager.merge(post);
-			manager.remove(post); // talvez usar o manager.find usando o ID
-			return true;
-		}
-		return false;		
-	}
+
 	public void excluirPost2(int  id, EntityManager manager) {
 		EntityTransaction transaction	= manager.getTransaction();
 		try {
@@ -98,7 +90,8 @@ public class PostController {
 			EntityTransaction transaction	= manager.getTransaction();
 			transaction.begin();
 
-			p = manager.createQuery(" select new model.RetornoPost(p.id_post,u.nome,p.conteudo)  from Post p, PostUsuario pu, Usuario u "
+			p = manager.createQuery(" select new model.RetornoPost(p.id_post,u.nome,p.conteudo)  "
+					+ "from Post p, PostUsuario pu, Usuario u "
 					+ " where pu.id_post = p.id_post " + 
 					" and u.id_usuario = p.id_user_post " + 
 					" and pu.id_user_post = :idUsuario " + 
@@ -155,6 +148,94 @@ public class PostController {
 		}
 		return null;		
 	}
+
+	
+	public List<RetornoPost> verMuralGrupo(int idGrupo, int idUserLogado , EntityManager manager) {
+		List<RetornoPost> p;
+		if (idGrupo>0) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+
+			p = manager.createQuery(" select new model.RetornoPost(p.id_post,u.nome,p.conteudo)  "
+					+ " from Post p, PostGrupo pg, Usuario u "
+					+ " where pg.id_post = p.id_post " + 
+					" and u.id_usuario = p.id_user_post " + 
+					" and pg.id_grupo_post = :idGrupo " + 
+					" and ( "
+					+ "((select COUNT(a) from MembrosDoGrupo a " + 
+					" where a.id_usuario = :idUserLogado and a.id_grupo = :idGrupo)>0) or "+  
+					" ((select COUNT(g) from Grupo g " + 
+					" where g.id_grupo = :idGrupo" +
+					" and g.visibilidade = 'P')>0)) " 
+					,RetornoPost.class)
+					.setParameter("idGrupo", idGrupo)
+					.setParameter("idUserLogado", idUserLogado)
+					.getResultList();
+
+			return p;
+		}
+		return null;		
+	}
+
+
+	public List<RetornoPost> buscaComentPostGrupo(EntityManager manager) {
+		List<RetornoPost> p;
+		if (manager.isOpen()) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+
+			p = manager.createQuery(" select new model.RetornoPost(c.id_post,c.id_comentario,u.nome,c.conteudo) " + 
+					" from ComentarioPost c, Usuario u " + 
+					" where c.id_user_coment=u.id_usuario " 
+					,RetornoPost.class)
+					.getResultList();
+
+			return p;
+		}
+		return null;		
+	}
+	
+	public List<RetornoPost> buscaRespComentGrupo(EntityManager manager) {
+		List<RetornoPost> p;
+		if (manager.isOpen()) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+
+			p = manager.createQuery(" select new model.RetornoPost(r.id_comentario,u.nome,r.conteudo) "
+					+ " from RespostaComent r ,Usuario u " + 
+					" where r.id_user_resp=u.id_usuario " 
+					,RetornoPost.class)
+					.getResultList();
+
+			return p;
+		}
+		return null;		
+	}
+	
+	public boolean salvarComentario(ComentarioPost coment, EntityManager manager) {
+		if (coment != null) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+			manager.persist(coment);
+			transaction.commit();
+
+			return true;
+		}
+		return false;		
+	}
+	
+	public boolean salvarResposta(RespostaComent reply, EntityManager manager) {
+		if (reply != null) {
+			EntityTransaction transaction	= manager.getTransaction();
+			transaction.begin();
+			manager.persist(reply);
+			transaction.commit();
+
+			return true;
+		}
+		return false;		
+	}
+
 
 }
 

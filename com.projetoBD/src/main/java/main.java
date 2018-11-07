@@ -12,10 +12,12 @@ import controller.PostController;
 import controller.UsuarioController;
 import model.Amizade;
 import model.BloqueioAmizade;
+import model.ComentarioPost;
 import model.Grupo;
 import model.MembrosDoGrupo;
 import model.Post;
 import model.PostUsuario;
+import model.RespostaComent;
 import model.RetornoPost;
 import model.SolicAmizade;
 import model.SolicMembGrupo;
@@ -130,6 +132,9 @@ public class main {
 						+ "10 - Ver mural de amigo \n"
 						+ "11 - Aceitar amizade \n"
 						+ "12 - Aceitar membros do grupo \n"
+						+ "13 - Ver mural do grupo \n"
+						+ "14 - Comentar post \n"
+						+ "15 - Responder comentário \n"
 						+ "digite 999 p sair"));
 
 
@@ -315,7 +320,7 @@ public class main {
 											
 										}
 										for (RetornoPost rc : listRespComent) {
-											if (rc.getId_post()==cp.getId_comentario()) {
+											if (rc.getId_post()==cp.getId_comentario()&&cp.getId_post()==pt.getId_post()) {
 												msg = msg+"\t\t ______"+rc.getNome()+": "+rc.getConteudo() + " \n ";
 												
 											}
@@ -330,33 +335,6 @@ public class main {
 							JOptionPane.showMessageDialog(null,  "não permitido ver mural");
 						}
 					
-					
-					
-					
-					
-					
-					
-					
-//					
-//					
-//					if (userController.verificaAmizade(userLogado.getId_usuario(), Integer.parseInt(idAmigo), manager)>0) {
-//						manager = main.createEntityManager();	
-//						List<Post> lp;
-//						//lp = postController.verMuralUsuario(Integer.parseInt(idAmigo),userLogado.getId_usuario(), manager);
-//						String t = "Mural de posts ! \n";
-////						if(lp !=null){
-////
-////							for (Post p : lp) {
-////								t = t + p.getConteudo()+"\n";
-////							}
-////						}
-//
-//						JOptionPane.showMessageDialog(null, t);
-//
-//					}else {
-//						JOptionPane.showMessageDialog(null, "não permitido ver mural");
-//					}
-
 
 					break;
 				case 11:
@@ -390,6 +368,121 @@ public class main {
 						JOptionPane.showMessageDialog(null, "Erro !!");
 					}
 					break;
+				case 12:
+					manager = main.createEntityManager();					
+					grupoController = new GrupoController();
+					List<String>listaGrupo = grupoController.getSolicitMembros(userLogado.getId_usuario(), manager);
+					 msg = "";
+					for (String la : listaGrupo) {
+						msg = msg+ la +" \n";
+					}
+					
+					idAmigo = JOptionPane.showInputDialog("Digite o id do membro para adicionar :\n\n "+ msg);
+					idGrupo = JOptionPane.showInputDialog("Digite o id do grupo : \n\n"+ msg);
+					String ehAdmin = JOptionPane.showInputDialog("é admin do grupo (S/N) ? : \n\n"+ msg);
+					
+					MembrosDoGrupo m = new MembrosDoGrupo();
+					
+					manager = main.createEntityManager();	
+					m.setAdmnistrador(ehAdmin);
+					m.setId_grupo(Integer.parseInt(idGrupo));
+					m.setId_usuario(Integer.parseInt(idAmigo));
+					
+					t1 = grupoController.aceitarMembro(m, manager);
+					manager = main.createEntityManager();
+					grupoController.
+					removeSolicitMembro(Integer.parseInt(idGrupo),Integer.parseInt(idAmigo), manager);
+					
+					if (t1) {
+
+						JOptionPane.showMessageDialog(null, "Membro add!!");
+					}else {
+						JOptionPane.showMessageDialog(null, "Erro !!");
+					}
+					break;
+				case 13:				
+					postController = new PostController();
+					idGrupo = JOptionPane.showInputDialog("Digite o id do grupo para ver o mural ! \n");
+
+					manager = GerarSql.createEntityManager();
+					List<RetornoPost>	listRetornoPostGrupo =postController.
+							verMuralGrupo(Integer.parseInt(idGrupo),userLogado.getId_usuario(), manager);
+					manager = GerarSql.createEntityManager();
+					List<RetornoPost> listComentPostGrupo =postController.buscaComentPostGrupo(manager);
+					manager = GerarSql.createEntityManager();
+					List<RetornoPost> listRespComentGrupo = postController.buscaRespComentGrupo(manager);
+					
+						msg = "";
+						if (listRetornoPostGrupo != null) {
+							for (RetornoPost pt : listRetornoPostGrupo) {
+								msg = msg+pt.getNome()+": "+pt.getConteudo() + " \n  ";
+									for (RetornoPost cp : listComentPostGrupo) {
+										if (cp.getId_post()==pt.getId_post()) {
+											msg = msg+"\t __ "+cp.getNome()+": "+cp.getConteudo() + " \n ";
+											
+										}
+										for (RetornoPost rc : listRespComentGrupo) {
+											if (rc.getId_post()==cp.getId_comentario()&&cp.getId_post()==pt.getId_post()) {
+												msg = msg+"\t\t ______"+rc.getNome()+": "+rc.getConteudo() + " \n ";
+												
+											}
+										}
+										
+									}
+					
+									
+								}
+								
+								JOptionPane.showMessageDialog(null, msg);
+						} else {
+							JOptionPane.showMessageDialog(null,  "não permitido ver mural");
+						}
+					
+
+					break;
+					
+				case 14:				
+					postController = new PostController();
+					String idPost = JOptionPane.showInputDialog("Digite o id do post para fazer um comentário ! \n");
+					ComentarioPost c = new ComentarioPost();
+					String conteudoComent = JOptionPane.showInputDialog("Digite  um comentário ! \n");
+					c.setConteudo(conteudoComent);
+					c.setId_post(Integer.parseInt(idPost));
+					c.setId_user_coment(userLogado.getId_usuario());
+					
+					manager = GerarSql.createEntityManager();
+					t1 = postController.salvarComentario(c, manager);
+					if(t1) {
+						
+								JOptionPane.showMessageDialog(null, "Comentário salvo!");
+						} else {
+							JOptionPane.showMessageDialog(null,  "não permitido ver mural");
+						}
+					
+
+					break;
+					
+				case 15:				
+					postController = new PostController();
+					String idComent = JOptionPane.showInputDialog("Digite o id do comentário para responder ! \n");
+					RespostaComent r = new RespostaComent();
+					String conteudoResposta = JOptionPane.showInputDialog("Digite uma reposta ! \n");
+					r.setConteudo(conteudoResposta);
+					r.setId_comentario(Integer.parseInt(idComent));
+					r.setId_user_resp(userLogado.getId_usuario());
+					
+					manager = GerarSql.createEntityManager();
+					t1 = postController.salvarResposta(r, manager);
+					if(t1) {
+						
+								JOptionPane.showMessageDialog(null, "Resposta salvo!");
+						} else {
+							JOptionPane.showMessageDialog(null,  "não permitido ver mural");
+						}
+					
+
+					break;
+					
 				default:
 					break;
 				}

@@ -114,13 +114,11 @@ public class GerarSql {
 		EntityManager manager; 
 		GerarSql gs = new GerarSql();
 		UsuarioController u = new UsuarioController();
-		GrupoController c = new GrupoController();
-		Grupo g = new Grupo();
+		GrupoController g = new GrupoController();
 		MembrosDoGrupo m = new MembrosDoGrupo();
 		SolicMembGrupo s = new SolicMembGrupo();
 		BloqueioMembGrupo b = new BloqueioMembGrupo();
-		g.setNome("Grupo teste");
-		g.setVisibilidade("P");
+
 		PostController p = new PostController();
 		
 		m.setId_grupo(1);
@@ -143,17 +141,21 @@ public class GerarSql {
 		manager = GerarSql.createEntityManager();
 //RetornoPost r = RetornoPost.class.cast(p.verMuralUsuario(4, 1, manager).get(0).getClass().getName());
 //			System.out.println(u.getSolicitAmizades(4, manager).listIterator());
-		
 
-			System.out.println(u.removeSolicitAmizadeAmizade(4, 5, manager));
+//		MembrosDoGrupo m1 = new MembrosDoGrupo();
+//		
+//		m1.setAdmnistrador("N");
+//		m1.setId_grupo(1);
+//		m1.setId_usuario(2);
+//		
+//			System.out.println(p.verMuralGrupo(1, 1, manager));
 
-		/*
-		
+	
 		
 		
 		
 		manager = GerarSql.createEntityManager();
-		List<RetornoPost>	listRetornoPost =p.verMuralUsuario(4, 2, manager);
+		List<RetornoPost>	listRetornoPost =p.verMuralGrupo(1, 4, manager);
 		manager = GerarSql.createEntityManager();
 		List<RetornoPost> listComentPost =p.buscaComentPostUser(manager);
 		manager = GerarSql.createEntityManager();
@@ -167,8 +169,9 @@ public class GerarSql {
 						msg = msg+"\t __ "+cp.getNome()+": "+cp.getConteudo() + " \n ";
 						
 					}
+					
 					for (RetornoPost rc : listRespComent) {
-						if (rc.getId_post()==cp.getId_comentario()) {
+						if (rc.getId_post()==cp.getId_comentario()&&cp.getId_post()==pt.getId_post()) {
 							msg = msg+"\t\t ______"+rc.getNome()+": "+rc.getConteudo() + " \n ";
 							
 						}
@@ -179,7 +182,7 @@ public class GerarSql {
 			}
 			
 			JOptionPane.showMessageDialog(null, msg);
-			*/
+			
 			
 			
 			
